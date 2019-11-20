@@ -26,3 +26,14 @@ insert into Doctor values ('D07','James','Briggs','20/June/1974','M',340000,null
 insert into Doctor values ('D08','John','Dunn','1/May/1988','M',350000,10000,'CRD');
 insert into Doctor values ('D09','Micheal','Mann','19/Sep/1969','M',240000,60000,'GEN');
 insert into Doctor values ('D10','Christopher','Allen','14/Oct/1972','M',210000,80000,'ICU');
+
+insert into doctor_specialize values ('Pain medicine','D01');
+insert into doctor_specialize values ('Transplant cardio','D02');
+insert into doctor_specialize values ('Adolescent medicine','D03');
+insert into doctor_specialize values ('Fetal medicine','D04');
+insert into doctor_specialize values ('Hand Surgery','D05');
+insert into doctor_specialize values ('Child neurology','D06');
+insert into doctor_specialize values ('Emergency service','D07');
+insert into doctor_specialize values ('Cardiovascular','D08');
+insert into doctor_specialize values ('General Surgery','D09');
+insert into doctor_specialize values ('Intensive Surgery','D10');
