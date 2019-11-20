@@ -2,7 +2,7 @@ insert into Department values ('CRD','Cardiology');
 insert into Department values ('ERD','Emergency');
 insert into Department values ('NED','Neurology');
 insert into Department values ('ICU','Intensive Crew Unit');
-insert into Department values ('CRD','Cardiology');
+insert into Department values ('GYD','Gynecology');
 insert into Department values ('GEN','General Med');
 
 insert into Medicine values ('M01','Vicodin',100);
@@ -72,3 +72,15 @@ insert into Patient values ('P08','Janna','Moore','F','19/Oct/2000','856835720',
 insert into Patient values ('P09','Dean','Hillam','F','12/Nov/1992','841074292','D09','N09','R09');
 insert into Patient values ('P10','Ella','Pond','F','18/Aug/1999','898612434','D10','N10','R10');
 insert into Patient values ('P11','Jason','Law','F','12/Aug/1989','704128454','D01','N01','R11');
+
+insert into Record values ('R01','Chest Pain','P01','D01')
+insert into Record values ('R02','Cardio Screening','P02','D02')
+insert into Record values ('R03','Stomach Pain','P03','D03')
+insert into Record values ('R04','Menopause','P04','D04')
+insert into Record values ('R05','Heart Failure','P05','D05')
+insert into Record values ('R06','Alzheimer','P06','D06')
+insert into Record values ('R07','Food Posioning','P07','D07')
+insert into Record values ('R08','Chest X-rays','P08','D08')
+insert into Record values ('R09','Fever','P09','D09')
+insert into Record values ('R10','Lung Failure','P10','D10')
+insert into Record values ('R11','Low blood pressure','P11','D01')
