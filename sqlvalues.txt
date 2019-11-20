@@ -37,3 +37,14 @@ insert into doctor_specialize values ('Emergency service','D07');
 insert into doctor_specialize values ('Cardiovascular','D08');
 insert into doctor_specialize values ('General Surgery','D09');
 insert into doctor_specialize values ('Intensive Surgery','D10');
+
+insert into Nurse values ('N01','Thea','Roberts','19/March/1981','F',100000,15000,'ERD',null);
+insert into Nurse values ('N02','Gabrielle','Luna','10/Sep/1981','F',140000,10000,'CRD',null);
+insert into Nurse values ('N03','Adele','Lee','30/Oct/1981','F',95000,25000,'GEN',null);
+insert into Nurse values ('N04','Marie','Sandoval','28/July/1984','F',120000,9000,'GYD',null);
+insert into Nurse values ('N05','Beth','Haynes','6/Oct/1984','F',88000,18000,'ICU',null);
+insert into Nurse values ('N06','Elmer','Owen','4/Dec/1984','M',150000,12500,'NED',null);
+insert into Nurse values ('N07','Johnny','Holt','25/Jan/1985','M',100000,24000,'ERD','N01');
+insert into Nurse values ('N08','Bernard','Fox','3/April/1985','M',102000,12000,'CRD','N02');
+insert into Nurse values ('N09','William','Riley','11/May/1988','M',108000,13000,'GEN','N03');
+insert into Nurse values ('N10','Zack','Vargas','4/June/1988','M',107000,10900,'GEN','N09');
