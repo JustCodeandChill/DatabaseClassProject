@@ -1,0 +1,28 @@
+insert into Department values ('CRD','Cardiology');
+insert into Department values ('ERD','Emergency');
+insert into Department values ('NED','Neurology');
+insert into Department values ('ICU','Intensive Crew Unit');
+insert into Department values ('CRD','Cardiology');
+insert into Department values ('GEN','General Med');
+
+insert into Medicine values ('M01','Vicodin',100);
+insert into Medicine values ('M02','Simvastatin',110);
+insert into Medicine values ('M03','Lisinopril',140);
+insert into Medicine values ('M04','Levothyroxine',120);
+insert into Medicine values ('M05','Azithromycin',130);
+insert into Medicine values ('M06','Metformin',90);
+insert into Medicine values ('M07','Lipitor',60);
+insert into Medicine values ('M08','Amlodipine',85);
+insert into Medicine values ('M09','Amoxicillin',70);
+insert into Medicine values ('M10','Hydrochlorothiazide',50);
+
+insert into Doctor values ('D01','Lisa','Stephens','4/Dec/1978','F',300000,22000,'ERD');
+insert into Doctor values ('D02','Angela','Ortiz','13/Oct/1973','F',280000,50000,'CRD');
+insert into Doctor values ('D03','Amy','White','14/Nov/1972','F',320000,78000,'GEN');
+insert into Doctor values ('D04','Kimberly','Matthews','2/Jan/1981','F',270000,null,'GYD');
+insert into Doctor values ('D05','Michelle','Perry','21/Feb/1986','F',310000,48000,'ICU');
+insert into Doctor values ('D06','Jason','Arnold','24/March/1979','M',290000,32000,'NED');
+insert into Doctor values ('D07','James','Briggs','20/June/1974','M',340000,null,'ERD');
+insert into Doctor values ('D08','John','Dunn','1/May/1988','M',350000,10000,'CRD');
+insert into Doctor values ('D09','Micheal','Mann','19/Sep/1969','M',240000,60000,'GEN');
+insert into Doctor values ('D10','Christopher','Allen','14/Oct/1972','M',210000,80000,'ICU');
