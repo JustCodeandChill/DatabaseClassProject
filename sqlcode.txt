@@ -1,143 +1,135 @@
+
 CREATE TABLE Department
 (
-  department.Id CHAR NOT NULL,
-  departmentName VARCHAR NOT NULL,
-  PRIMARY KEY (department.Id)
+  department_Id CHAR(3) NOT NULL,
+  departmentName VARCHAR(20) NOT NULL,
+  PRIMARY KEY (department_Id)
 );
 
 CREATE TABLE Medicine
 (
-  m.Id CHAR NOT NULL,
-  name VARCHAR NOT NULL,
-  price NUMERIC NOT NULL,
-  PRIMARY KEY (m.Id)
+  m_Id CHAR(3) NOT NULL,
+  name VARCHAR(20) NOT NULL,
+  price NUMERIC(9,2) NOT NULL,
+  PRIMARY KEY (m_Id)
 );
 
 CREATE TABLE Doctor
 (
-  d.Id CHAR NOT NULL,
-  firstName VARCHAR NOT NULL,
-  lastName VARCHAR NOT NULL,
-  birthDay DATE NOT NULL,
-  gender CHAR NOT NULL,
-  department.id CHAR NOT NULL,
-  salary NUMERIC NOT NULL,
-  bonus NUMERIC,
-  department.Id CHAR NOT NULL,
-  PRIMARY KEY (d.Id),
-  FOREIGN KEY (department.Id) REFERENCES Department(department.Id)
-);
-
-CREATE TABLE Nurse
-(
-  n.Id CHAR(4) NOT NULL,
+  d_Id CHAR(3) NOT NULL,
   firstName VARCHAR(20) NOT NULL,
   lastName VARCHAR(20) NOT NULL,
-  birthDAy DATE NOT NULL,
+  birthDay DATE NOT NULL,
   gender CHAR(1) NOT NULL,
   salary NUMERIC(9,2) NOT NULL,
   bonus NUMERIC(9,2),
-  department.Id CHAR NOT NULL,
-  PRIMARY KEY (n.Id),
-  FOREIGN KEY (department.Id) REFERENCES Department(department.Id)
-);
-
-CREATE TABLE Room
-(
-  r.Id CHAR NOT NULL,
-  n.Id CHAR(4) NOT NULL,
-  PRIMARY KEY (r.Id),
-  FOREIGN KEY (n.Id) REFERENCES Nurse(n.Id)
-);
-
-CREATE TABLE mentors
-(
-  n.Id CHAR(4) NOT NULL,
-  d.Id CHAR NOT NULL,
-  PRIMARY KEY (n.Id, d.Id),
-  FOREIGN KEY (n.Id) REFERENCES Nurse(n.Id),
-  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id)
-);
-
-CREATE TABLE train
-(
-  n.Id_1 CHAR(4) NOT NULL,
-  trainn.Id_2 CHAR(4) NOT NULL,
-  PRIMARY KEY (n.Id_1, trainn.Id_2),
-  FOREIGN KEY (n.Id_1) REFERENCES Nurse(n.Id),
-  FOREIGN KEY (trainn.Id_2) REFERENCES Nurse(n.Id)
+  department_id CHAR(3) NOT NULL,
+  PRIMARY KEY (d_Id),
+  FOREIGN KEY (department_id) REFERENCES Department(department_Id)
 );
 
 CREATE TABLE Doctor_specialize
 (
-  specialize VARCHAR NOT NULL,
-  d.Id CHAR NOT NULL,
-  PRIMARY KEY (d.Id),
-  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id)
+  specialize VARCHAR(20) NOT NULL,
+  d_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (d_Id),
+  FOREIGN KEY (d_Id) REFERENCES Doctor(d_Id)
 );
 
-CREATE TABLE fPatient
+CREATE TABLE Patient
 (
-  p.Id CHAR NOT NULL,
-  firstName VARCHAR NOT NULL,
-  lastName VARCHAR NOT NULL,
-  gender CHAR NOT NULL,
+  p_Id CHAR(3) NOT NULL,
+  firstName VARCHAR(20) NOT NULL,
+  lastName VARCHAR(20) NOT NULL,
+  gender CHAR(1) NOT NULL,
   birthDay DATE NOT NULL,
-  SSN CHAR NOT NULL,
-  d.Id CHAR NOT NULL,
-  n.Id CHAR(4) NOT NULL,
-  r.Id CHAR NOT NULL,
-  PRIMARY KEY (p.Id),
-  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id),
-  FOREIGN KEY (n.Id) REFERENCES Nurse(n.Id),
-  FOREIGN KEY (r.Id) REFERENCES Room(r.Id),
+  SSN CHAR(9) NOT NULL,
+  d_Id CHAR(3) NOT NULL,
+  n_Id CHAR(3) NOT NULL,
+  r_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (p_Id),
+  FOREIGN KEY (d_Id) REFERENCES Doctor(d_Id),
+  FOREIGN KEY (n_Id) REFERENCES Nurse(n_Id),
+  FOREIGN KEY (r_Id) REFERENCES Room(r_Id),
   UNIQUE (SSN)
+);
+
+CREATE TABLE Nurse
+(
+  n_Id CHAR(3) NOT NULL,
+  firstName VARCHAR(20) NOT NULL,
+  lastName VARCHAR(20) NOT NULL,
+  birthDay DATE NOT NULL,
+  gender CHAR(1) NOT NULL,
+  salary NUMERIC(9,2) NOT NULL,
+  bonus NUMERIC(9,2),
+  department_Id CHAR(3) NOT NULL,
+  n_trainedby CHAR(3),
+  PRIMARY KEY (n_Id),
+  FOREIGN KEY (department_Id) REFERENCES Department(department_Id),
+  FOREIGN KEY (n_trainedby) REFERENCES Nurse(n_Id)
+);
+
+CREATE TABLE Room
+(
+  r_Id CHAR(3) NOT NULL,
+  n_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (r_Id),
+  FOREIGN KEY (n_Id) REFERENCES Nurse(n_Id)
 );
 
 CREATE TABLE Record
 (
-  record.Id CHAR NOT NULL,
-  description VARCHAR NOT NULL,
-  p.Id CHAR NOT NULL,
-  d.Id CHAR NOT NULL,
-  PRIMARY KEY (record.Id, p.Id),
-  FOREIGN KEY (p.Id) REFERENCES fPatient(p.Id),
-  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id)
+  record_Id CHAR(3) NOT NULL,
+  description VARCHAR(20) NOT NULL,
+  p_Id CHAR(3) NOT NULL,
+  d_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (record_Id, p_Id),
+  FOREIGN KEY (p_Id) REFERENCES Patient(p_Id),
+  FOREIGN KEY (d_Id) REFERENCES Doctor(d_Id)
 );
 
 CREATE TABLE Bill
 (
-  b.Id CHAR NOT NULL,
-  insuaranceDeduct NUMERIC NOT NULL,
+  b_Id CHAR NOT NULL,
   date DATE NOT NULL,
-  p.Id CHAR NOT NULL,
-  PRIMARY KEY (b.Id, p.Id),
-  FOREIGN KEY (p.Id) REFERENCES fPatient(p.Id)
+  insurance_deduct NUMERIC(9,2) NOT NULL,
+  p_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (b_Id, p_Id),
+  FOREIGN KEY (p_Id) REFERENCES Patient(p_Id)
+);
+
+CREATE TABLE mentors
+(
+  n_Id CHAR(3) NOT NULL,
+  d_id CHAR(3) NOT NULL,
+  FOREIGN KEY (n_Id) REFERENCES Nurse(n_Id),
+  FOREIGN KEY (d_id) REFERENCES Doctor(d_Id)
 );
 
 CREATE TABLE listed_in
 (
   quantity INT NOT NULL,
-  b.Id CHAR NOT NULL,
-  p.Id CHAR NOT NULL,
-  m.Id CHAR NOT NULL,
-  PRIMARY KEY (b.Id, p.Id, m.Id),
-  FOREIGN KEY (b.Id, p.Id) REFERENCES Bill(b.Id, p.Id),
-  FOREIGN KEY (m.Id) REFERENCES Medicine(m.Id)
+  b_Id CHAR NOT NULL,
+  p_Id CHAR(3) NOT NULL,
+  m_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (b_Id, p_Id, m_Id),
+  FOREIGN KEY (b_Id, p_Id) REFERENCES Bill(b_Id, p_Id),
+  FOREIGN KEY (m_Id) REFERENCES Medicine(m_Id)
 );
 
 CREATE TABLE Patient_address
 (
-  address VARCHAR NOT NULL,
-  p.Id CHAR NOT NULL,
-  PRIMARY KEY (address, p.Id),
-  FOREIGN KEY (p.Id) REFERENCES fPatient(p.Id)
+  address VARCHAR(20) NOT NULL,
+  p_id CHAR(3) NOT NULL,
+  PRIMARY KEY (address, p_id),
+  FOREIGN KEY (p_id) REFERENCES Patient(p_Id)
 );
 
 CREATE TABLE Patient_phoneNumber
 (
-  phoneNumber CHAR NOT NULL,
-  p.Id CHAR NOT NULL,
-  PRIMARY KEY (phoneNumber, p.Id),
-  FOREIGN KEY (p.Id) REFERENCES fPatient(p.Id)
+  phoneNumber CHAR(10) NOT NULL,
+  p_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (phoneNumber, p_Id),
+  FOREIGN KEY (p_Id) REFERENCES Patient(p_Id)
 );
