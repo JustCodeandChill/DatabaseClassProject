@@ -48,3 +48,27 @@ insert into Nurse values ('N07','Johnny','Holt','25/Jan/1985','M',100000,24000,'
 insert into Nurse values ('N08','Bernard','Fox','3/April/1985','M',102000,12000,'CRD','N02');
 insert into Nurse values ('N09','William','Riley','11/May/1988','M',108000,13000,'GEN','N03');
 insert into Nurse values ('N10','Zack','Vargas','4/June/1988','M',107000,10900,'GEN','N09');
+
+insert into room values ('R01','N01')
+insert into room values ('R02','N02')
+insert into room values ('R03','N03')
+insert into room values ('R04','N04')
+insert into room values ('R05','N05')
+insert into room values ('R06','N06')
+insert into room values ('R07','N07')
+insert into room values ('R08','N08')
+insert into room values ('R09','N09')
+insert into room values ('R10','N10')
+insert into room values ('R11','N01')
+
+insert into Patient values ('P01','Barnaby','Atkinson','M','1/Jan/1998','817188489','D01','N01','R01');
+insert into Patient values ('P02','Dayna','Falconer','F','6/Feb/1987','719232592','D02','N02','R02');
+insert into Patient values ('P03','Elliot','Lawrence','M','8/March/1968','468009254','D03','N03','R03');
+insert into Patient values ('P04','Will','Jewell','M','21/May/1985','573137202','D04','N04','R04');
+insert into Patient values ('P05','Meagan','Harrelson','F','14/June/1976','548557465','D05','N05','R05');
+insert into Patient values ('P06','Cameron','Kemp','M','17/April/1969','723078672','D06','N06','R06');
+insert into Patient values ('P07','Hannah','Harrison','F','9/Dec/1977','881305238','D07','N07','R07');
+insert into Patient values ('P08','Janna','Moore','F','19/Oct/2000','856835720','D08','N08','R08');
+insert into Patient values ('P09','Dean','Hillam','F','12/Nov/1992','841074292','D09','N09','R09');
+insert into Patient values ('P10','Ella','Pond','F','18/Aug/1999','898612434','D10','N10','R10');
+insert into Patient values ('P11','Jason','Law','F','12/Aug/1989','704128454','D01','N01','R11');
