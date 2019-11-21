@@ -99,13 +99,14 @@ CREATE TABLE Bill
   FOREIGN KEY (p_Id) REFERENCES Patient(p_Id)
 );
 
-CREATE TABLE mentors
+create table Mentor
 (
-  n_Id CHAR(3) NOT NULL,
-  d_id CHAR(3) NOT NULL,
+  n_Id CHAR(3) ,
+  d_Id CHAR(3) ,
   FOREIGN KEY (n_Id) REFERENCES Nurse(n_Id),
   FOREIGN KEY (d_id) REFERENCES Doctor(d_Id)
 );
+
 
 CREATE TABLE listed_in
 (
