@@ -37,3 +37,5 @@ insert into doctor_specialize values ('Emergency service','D07');
 insert into doctor_specialize values ('Cardiovascular','D08');
 insert into doctor_specialize values ('General Surgery','D09');
 insert into doctor_specialize values ('Intensive Surgery','D10');
+
+https://psu.hbt.mybluehost.me/
