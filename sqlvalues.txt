@@ -84,3 +84,14 @@ insert into Record values ('R08','Chest X-rays','P08','D08')
 insert into Record values ('R09','Fever','P09','D09')
 insert into Record values ('R10','Lung Failure','P10','D10')
 insert into Record values ('R11','Low blood pressure','P11','D01')
+
+insert into mentor values ('N01','D01');
+insert into mentor values ('N02','D02');
+insert into mentor values ('N03','D03');
+insert into mentor values ('N04','D04');
+insert into mentor values ('N05','D05');
+insert into mentor values ('N06','D06');
+insert into mentor values ('N07','D01');
+insert into mentor values ('N08','D08');
+insert into mentor values ('N09','D03');
+insert into mentor values ('N10',null);
