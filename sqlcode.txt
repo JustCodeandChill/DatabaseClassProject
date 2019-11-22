@@ -91,7 +91,7 @@ CREATE TABLE Record
 
 CREATE TABLE Bill
 (
-  b_Id CHAR NOT NULL,
+  b_Id CHAR(3) NOT NULL,
   date DATE NOT NULL,
   insurance_deduct NUMERIC(9,2) NOT NULL,
   p_Id CHAR(3) NOT NULL,
@@ -111,7 +111,7 @@ create table Mentor
 CREATE TABLE listed_in
 (
   quantity INT NOT NULL,
-  b_Id CHAR NOT NULL,
+  b_Id CHAR(3) NOT NULL,
   p_Id CHAR(3) NOT NULL,
   m_Id CHAR(3) NOT NULL,
   PRIMARY KEY (b_Id, p_Id, m_Id),
