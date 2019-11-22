@@ -95,3 +95,52 @@ insert into mentor values ('N07','D01');
 insert into mentor values ('N08','D08');
 insert into mentor values ('N09','D03');
 insert into mentor values ('N10',null);
+
+insert into bill values ('B01','1/May/2019',1000,'P01')
+insert into bill values ('B02','5/May/2019',900,'P02')
+insert into bill values ('B03','9/May/2019',800,'P03')
+insert into bill values ('B04','11/May/2019',500,'P04')
+insert into bill values ('B05','12/May/2019',700,'P05')
+insert into bill values ('B06','30/May/2019',600,'P06')
+insert into bill values ('B07','6/June/2019',1200,'P07')
+insert into bill values ('B08','8/June/2019',1300,'P08')
+insert into bill values ('B09','14/June/2019',900,'P09')
+insert into bill values ('B10','28/June/2019',800,'P10')
+insert into bill values ('B11','7/July/2019',700,'P11')
+
+insert into Patient_phoneNumber values ('3341231234','P01');
+insert into Patient_phoneNumber values ('3341111111','P02');
+insert into Patient_phoneNumber values ('3342222222','P03');
+insert into Patient_phoneNumber values ('3343333333','P04');
+insert into Patient_phoneNumber values ('3344444444','P05');
+insert into Patient_phoneNumber values ('3345555555','P06');
+insert into Patient_phoneNumber values ('3346666666','P07');
+insert into Patient_phoneNumber values ('3347777777','P08');
+insert into Patient_phoneNumber values ('3348888888','P09');
+insert into Patient_phoneNumber values ('3349999999','P10');
+insert into Patient_phoneNumber values ('3340000000','P11');
+
+
+insert into Patient_address values ('100 center st','P01');
+insert into Patient_address values ('200 state st','P02');
+insert into Patient_address values ('300 park st','P03');
+insert into Patient_address values ('33 alabama rd','P04');
+insert into Patient_address values ('27 troy st','P05');
+insert into Patient_address values ('65 american st','P06');
+insert into Patient_address values ('88 auburn road','P07');
+insert into Patient_address values ('60 dothan st','P08');
+insert into Patient_address values ('88 pond ave','P09');
+insert into Patient_address values ('90 park st','P10');
+insert into Patient_address values ('100 college park','P11');
+
+insert into listed_in values(1,'B01','P01','M01')
+insert into listed_in values(2,'B02','P02','M02')
+insert into listed_in values(1,'B03','P03','M03')
+insert into listed_in values(4,'B04','P04','M04')
+insert into listed_in values(5,'B05','P05','M05')
+insert into listed_in values(2,'B06','P06','M06')
+insert into listed_in values(3,'B07','P07','M07')
+insert into listed_in values(2,'B08','P08','M08')
+insert into listed_in values(5,'B09','P09','M09')
+insert into listed_in values(1,'B10','P10','M10')
+insert into listed_in values(3,'B11','P11','M01')
