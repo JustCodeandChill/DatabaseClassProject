@@ -112,7 +112,15 @@ create table Mentor
   FOREIGN KEY (d_id) REFERENCES Doctor(d_Id)
 );
 
-
+CREATE TABLE Bill
+(
+  b_Id CHAR(3) NOT NULL,
+  date DATE NOT NULL,
+  insurance_deduct NUMERIC(9,2) NOT NULL,
+  p_Id CHAR(3) NOT NULL,
+  PRIMARY KEY (b_Id, p_Id),
+  FOREIGN KEY (p_Id) REFERENCES Patient(p_Id)
+);
 CREATE TABLE listed_in
 (
   quantity INT NOT NULL,
