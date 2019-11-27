@@ -1,0 +1,4 @@
+create view cost_for_bill as
+select  b.b_Id, insurance_deduct, quantity*price as cost, insurance_deduct-(quantity*price) as remaining
+from bill b,listed_in l,Medicine m
+where l.m_id=m.m_Id and b.b_Id=l.b_Id
