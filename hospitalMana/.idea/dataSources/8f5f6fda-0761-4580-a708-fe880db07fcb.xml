@@ -311,12 +311,12 @@ pId</ColNames>
       <DataType>TEXT|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="76" parent="12" name="birthDay">
+    <column id="76" parent="12" name="SSN">
       <Position>5</Position>
       <DataType>TEXT|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="77" parent="12" name="SSN">
+    <column id="77" parent="12" name="bDay">
       <Position>6</Position>
       <DataType>REAL|0s</DataType>
       <NotNull>1</NotNull>
@@ -344,7 +344,7 @@ pId</ColNames>
     </index>
     <index id="82" parent="12" name="sqlite_autoindex_Patient_2">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>SSN</ColNames>
+      <ColNames>bDay</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
@@ -358,7 +358,7 @@ pId</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Patient_1</UnderlyingIndexName>
     </key>
     <key id="85" parent="12">
-      <ColNames>SSN</ColNames>
+      <ColNames>bDay</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Patient_2</UnderlyingIndexName>
     </key>
     <foreign-key id="86" parent="12">

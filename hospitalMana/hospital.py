@@ -8,8 +8,9 @@ connect = sqlite3.connect('database.db')
 c = connect.cursor()
 
 gray = "#edede8"
-blue = 'steelblue'
+blue = '#6abbfc'
 black = "black"
+mint = ""
 
 class Application:
     def __init__(self, master):
@@ -55,8 +56,8 @@ class Application:
         self.addPatient = self.create_right_option('add', 10, 120)
         self.addPatient.configure(command=self.add_patient)
 
-        self.showPatientRecord = self.create_right_option('show record', 150, 120)
-        self.showPatientBill = self.create_right_option('show bill', 290, 120)
+        # self.showPatientRecord = self.create_right_option('show record', 150, 120)
+        # self.showPatientBill = self.create_right_option('show bill', 290, 120)
 
     def create_doctor_options(self):
         pass
@@ -64,12 +65,12 @@ class Application:
     def create_nurse_options(self):
         pass
 
-    def create_right_heading(self, text, x, y, bg='steelblue', fg='black'):
+    def create_right_heading(self, text, x, y, bg=blue, fg='black'):
         self.name = Label(self.right, text=text, font='Calibri 28 bold', bg=bg, fg=fg)
         self.name.place(x=x, y=y)
         return self.name
 
-    def create_right_option(self, text, x, y, width=15, height=3, bg='steelblue', fg='black'):
+    def create_right_option(self, text, x, y, width=15, height=3, bg=blue, fg='black'):
         self.name = Button(self.right, text=text, width=width, height=height, bg=bg, fg=fg)
         self.name.place(x=x, y=y)
         return self.name
@@ -127,11 +128,6 @@ class Application:
         params = (str(self.sp_patient_id_entry.get()))
         result = c.execute(sql, (params,))
         connect.commit()
-
-        # if not (result):
-        #     self.info_patient_warning = self.create_left_heading(text="NO Patient Found", x=10, y=100, font='Calibri 18 bold')
-        #     msg.showinfo("Warning")
-        #     return
 
         #start from x=10, y= 240 Each time y+= 50 x=180, y=240
         self.info_patient_id = self.create_left_heading(text="Patient ID", x=10, y=230, font='Calibri 18 bold')
@@ -229,11 +225,30 @@ class Application:
         self.add_patient_nurse = self.create_left_heading(text="Patient's Nurse", x=10, y=335, font='Calibri 12 bold')
         self.add_patient_nurse_entry = self.create_left_entry(x=180, y=340)
 
-        self.create_button = self.create_left_option('CREATE', 10, 380)
+        self.create_button = self.create_left_option('ADD', 10, 380)
         self.create_button.configure(command=self.add_patient_to_Patient_Table)
 
     def add_patient_to_Patient_Table(self):
-        pass
+        # get all the value at entry
+        self.ap_pId = str(self.add_patient_id_entry.get())
+        self.ap_fName = str(self.add_patient_fname_entry.get())
+        self.ap_lName = str(self.add_patient_lname_entry.get())
+        self.ap_gender = str(self.add_patient_gender_entry.get())
+        self.ap_bDay = str(self.add_patient_bDay_entry.get())
+        self.ap_SSN = str(self.add_patient_SSN_entry.get())
+        self.ap_room = str(self.add_patient_room_entry.get())
+        self.ap_patientDoctor = str(self.add_patient_doctor_entry.get())
+        self.ap_patientNurse = str(self.add_patient_nurse_entry.get())
+
+        # insert query
+        add_patient_sql = "insert into main.Patient values (?, ?, ?, ?,  ?, ?, ?, ?, ?)"
+        params = (self.ap_pId, self.ap_fName, self.ap_lName, self.ap_gender,  self.ap_SSN, self.ap_bDay, self.ap_patientDoctor, self.ap_patientNurse, self.ap_room, )
+        c.execute(add_patient_sql, params)
+        connect.commit()
+
+        msg.showinfo("Success", "Successfully add " + self.ap_pId + " to the table")
+        self.ap_annouce = self.create_left_heading(text="Successfully add " + self.ap_pId + " to the table", x=10, y=450, font='Calibri 12 bold')
+
 root = Tk()
 b = Application(root)
 
