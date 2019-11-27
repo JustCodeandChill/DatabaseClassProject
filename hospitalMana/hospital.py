@@ -12,6 +12,7 @@ blue = '#6abbfc'
 black = "black"
 mint = ""
 
+
 class Application:
     def __init__(self, master):
         # Variables
@@ -51,7 +52,10 @@ class Application:
         self.searchPatient.configure(command=self.search_patient)
 
         self.updatePatient = self.create_right_option('update', 150, 50)
+        self.updatePatient.configure(command=self.update_patient)
+
         self.deletePatient = self.create_right_option('delete', 290, 50)
+        self.deletePatient.configure(command=self.delete_patient)
 
         self.addPatient = self.create_right_option('add', 10, 120)
         self.addPatient.configure(command=self.add_patient)
@@ -106,7 +110,7 @@ class Application:
 
     def render_search_patient_GUI(self):
         self.sp_heading = self.create_left_heading('Search Patient', 10, 10, gray)
-        text = "This option allows user to find patient based on ID or name"
+        text = "This option allows user to find patient based on ID"
         self.sp_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 18 bold')
 
         # x = 10, y =100 and x = 180, y = 110 Giu nguyen x
@@ -114,10 +118,10 @@ class Application:
         self.sp_patient_id_entry = self.create_left_entry(x=180, y=110)
 
         self.search_button = self.create_left_option('SEARCH', 10, 160)
-        self.search_button.configure(command=self.search_patient_basedon_id_or_name)
+        self.search_button.configure(command=self.search_patient_basedon_id)
 
-    def search_patient_basedon_id_or_name(self):
-        #Render the result on screen
+    def search_patient_basedon_id(self):
+        # Render the result on screen
         self.render_search_patient_info()
         self.render_search_patient_phone()
         self.render_search_patient_address()
@@ -129,7 +133,7 @@ class Application:
         result = c.execute(sql, (params,))
         connect.commit()
 
-        #start from x=10, y= 240 Each time y+= 50 x=180, y=240
+        # start from x=10, y= 240 Each time y+= 50 x=180, y=240
         self.info_patient_id = self.create_left_heading(text="Patient ID", x=10, y=230, font='Calibri 18 bold')
         self.info_patient_id_entry = self.create_left_entry(x=180, y=240)
 
@@ -150,14 +154,15 @@ class Application:
 
         for row in result:
             self.info_patient_id_entry.insert(END, str(row[0]))
-            self.info_patient_name_entry.insert(END, str(row[1] +" "+ row[2]))
+            self.info_patient_name_entry.insert(END, str(row[1] + " " + row[2]))
             self.info_patient_gender_entry.insert(END, str(row[3]))
             self.info_patient_SSN_entry.insert(END, str(row[4]))
             self.info_patient_bDay_entry.insert(END, str(row[5]))
             self.info_patient_room_entry.insert(END, str(row[8]))
 
     def render_search_patient_phone(self):
-        self.info_patient_phone_number = self.create_left_heading(text="Patient Phone", x=10, y=530, font='Calibri 18 bold')
+        self.info_patient_phone_number = self.create_left_heading(text="Patient Phone", x=10, y=530,
+                                                                  font='Calibri 18 bold')
         self.info_patient_phone_number_entry = self.create_left_entry(x=180, y=540)
 
         # Doing the search query on Patient phone
@@ -173,7 +178,8 @@ class Application:
         cx.close()
 
     def render_search_patient_address(self):
-        self.info_patient_address_number = self.create_left_heading(text="Patient address", x=10, y=580, font='Calibri 18 bold')
+        self.info_patient_address_number = self.create_left_heading(text="Patient address", x=10, y=580,
+                                                                    font='Calibri 18 bold')
         self.info_patient_address_number_entry = self.create_left_entry(x=180, y=590)
 
         # Doing the search query on Patient phone
@@ -184,7 +190,7 @@ class Application:
         connect.commit()
 
         for row1 in address_number:
-            self.info_patient_address_number_entry .insert(END, str(row1[0]))
+            self.info_patient_address_number_entry.insert(END, str(row1[0]))
 
     # add_patient
     def add_patient(self):
@@ -203,7 +209,8 @@ class Application:
         self.add_patient_id = self.create_left_heading(text="Patient ID", x=10, y=150, font='Calibri 12 bold')
         self.add_patient_id_entry = self.create_left_entry(x=180, y=160)
 
-        self.add_patient_name = self.create_left_heading(text="Patient First, Last Name", x=10, y=180, font='Calibri 12 bold')
+        self.add_patient_name = self.create_left_heading(text="Patient First, Last Name", x=10, y=180,
+                                                         font='Calibri 12 bold')
         self.add_patient_fname_entry = self.create_left_entry(x=180, y=185)
         self.add_patient_lname_entry = self.create_left_entry(x=450, y=185)
 
@@ -242,12 +249,113 @@ class Application:
 
         # insert query
         add_patient_sql = "insert into main.Patient values (?, ?, ?, ?,  ?, ?, ?, ?, ?)"
-        params = (self.ap_pId, self.ap_fName, self.ap_lName, self.ap_gender,  self.ap_SSN, self.ap_bDay, self.ap_patientDoctor, self.ap_patientNurse, self.ap_room, )
+        params = (
+        self.ap_pId, self.ap_fName, self.ap_lName, self.ap_gender, self.ap_SSN, self.ap_bDay, self.ap_patientDoctor,
+        self.ap_patientNurse, self.ap_room,)
         c.execute(add_patient_sql, params)
         connect.commit()
 
         msg.showinfo("Success", "Successfully add " + self.ap_pId + " to the table")
-        self.ap_annouce = self.create_left_heading(text="Successfully add " + self.ap_pId + " to the table", x=10, y=450, font='Calibri 12 bold')
+        self.ap_annouce = self.create_left_heading(text="Successfully add " + self.ap_pId + " to the table", x=10,
+                                                   y=450, font='Calibri 12 bold')
+
+    def delete_patient(self):
+        self.destroy_left_side()
+        self.render_delete_patient_GUI()
+
+    def render_delete_patient_GUI(self):
+        self.dp_heading = self.create_left_heading('Delete Patient', 10, 10, gray)
+        text = "This option allows user to delete patient based on ID"
+        self.dp_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 18 bold')
+
+        # x = 10, y =100 and x = 180, y = 110 Giu nguyen x
+        self.dp_patient_id = self.create_left_heading(text="Patient ID", x=10, y=100, font='Calibri 18 bold')
+        self.dp_patient_id_entry = self.create_left_entry(x=180, y=110)
+
+        self.delete_button = self.create_left_option('DELETE', 10, 160)
+        self.delete_button.configure(command=self.delete_patient_basedon_id)
+
+    def delete_patient_basedon_id(self):
+        delete_sql = "DELETE FROM Patient where Patient.pId like ?"
+        self.dp_pId = str(self.dp_patient_id_entry.get())
+        print(self.dp_pId)
+        params = (str(self.dp_pId),)
+
+        c.execute(delete_sql, params)
+        connect.commit()
+        msg.showinfo("Delete", "Delete " + self.dp_pId + " From the list of Patient")
+        self.ap_annouce = self.create_left_heading(
+            text="Successfully delete " + self.dp_pId + " From the list of Patient", x=10, y=280,
+            font='Calibri 12 bold')
+
+    def update_patient(self):
+        self.destroy_left_side()
+        self.render_update_patient_GUI()
+
+    def render_update_patient_GUI(self):
+        self.up_heading = self.create_left_heading('Search Patient', 10, 10, gray)
+        text = "This option allows user to update information about patient based on ID"
+        self.up_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 18 bold')
+
+        # x = 10, y =100 and x = 180, y = 110 Giu nguyen x
+        self.up_patient_id = self.create_left_heading(text="Patient ID", x=10, y=100, font='Calibri 18 bold')
+        self.up_patient_id_entry = self.create_left_entry(x=180, y=110)
+
+        self.update_button = self.create_left_option('SEARCH', 10, 160)
+        self.update_button.configure(command=self.update_patient_basedon_id)
+
+    def update_patient_basedon_id(self):
+        self.render_update_title_and_entry()
+
+    def render_update_title_and_entry(self):
+
+        self.up_patient_name = self.create_left_heading(text="Patient First, Last Name", x=10, y=220,
+                                                         font='Calibri 12 bold')
+        self.up_patient_fname_entry = self.create_left_entry(x=180, y=215)
+        self.up_patient_lname_entry = self.create_left_entry(x=450, y=215)
+
+        self.up_patient_gender = self.create_left_heading(text="Patient Gender", x=10, y=245, font='Calibri 12 bold')
+        self.up_patient_gender_entry = self.create_left_entry(x=180, y=245)
+
+        self.up_patient_SSN = self.create_left_heading(text="Patient SSN", x=10, y=270, font='Calibri 12 bold')
+        self.up_patient_SSN_entry = self.create_left_entry(x=180, y=270)
+
+        self.up_patient_bDay = self.create_left_heading(text="Patient BirthDay", x=10, y=295, font='Calibri 12 bold')
+        self.up_patient_bDay_entry = self.create_left_entry(x=180, y=295)
+
+        self.up_patient_room = self.create_left_heading(text="Patient Room", x=10, y=320, font='Calibri 12 bold')
+        self.up_patient_room_entry = self.create_left_entry(x=180, y=320)
+
+        self.up_patient_doctor = self.create_left_heading(text="Patient's Doctor", x=10, y=345, font='Calibri 12 bold')
+        self.up_patient_doctor_entry = self.create_left_entry(x=180, y=345)
+
+        self.up_patient_nurse = self.create_left_heading(text="Patient's Nurse", x=10, y=370, font='Calibri 12 bold')
+        self.up_patient_nurse_entry = self.create_left_entry(x=180, y=370)
+
+        self.update_button = self.create_left_option('UPDATE', 10, 400)
+        self.update_button.configure(command=self.update_patient_to_Patient_Table)
+
+    def update_patient_to_Patient_Table(self):
+        # get values
+        self.up_pId = str(self.up_patient_id_entry.get())
+        self.up_fName = str(self.up_patient_fname_entry.get())
+        self.up_lName = str(self.up_patient_lname_entry.get())
+        self.up_gender = str(self.up_patient_gender_entry.get())
+        self.up_bDay = str(self.up_patient_bDay_entry.get())
+        self.up_SSN = str(self.up_patient_SSN_entry.get())
+        self.up_room = str(self.up_patient_room_entry.get())
+        self.up_patientDoctor = str(self.up_patient_doctor_entry.get())
+        self.up_patientNurse = str(self.up_patient_nurse_entry.get())
+
+        query = "UPDATE Patient SET firstName=?, lastName=?, gender=?, bDay=?, SSN=?, pId=?, nId=?, rId=? where pId = ?"
+        params = (self.up_fName, self.up_lName, self.up_gender, self.up_bDay, self.up_SSN, self.up_patientDoctor, self.up_patientNurse, self.up_room, self.up_pId,)
+        c.execute(query, params)
+        connect.commit()
+        msg.showinfo("Success", "Update " + self.up_pId + ".")
+        self.up_annouce = self.create_left_heading(
+            text="Successfully update " + self.up_pId + " From the list of Patient", x=10, y=460,
+            font='Calibri 12 bold')
+
 
 root = Tk()
 b = Application(root)
