@@ -1,0 +1,4 @@
+self.id_entry
+self.SSN_entry
+self.name_entry
+self.roomId_entry
