@@ -11,10 +11,6 @@ gray = "#edede8"
 blue = '#6abbfc'
 black = "black"
 
-a, b, c = [1, 2, 3]
-print(a, b, c)
-
-
 class Application:
     def __init__(self, master):
         # Variables
@@ -29,15 +25,45 @@ class Application:
         self.right = Frame(master, width=410, height=720, bg=blue)
         self.right.pack(side=RIGHT)
 
-        # Working with men
+        # Working with menu
+        self.create_home_frame()
         self.create_menu()
-        self.name = Label(self.left, text='asd', font='Calibri 28 bold')
-        self.name.place(x=0, y=50)
+
+
+    def create_home_frame(self):
+        self.destroy_left_side()
+        self.name = Label(self.left, text='ABC Hospital Management Page', font='Calibri 28 bold')
+        self.name.place(x=10, y=20)
+
+        text = 'Welcome to ABC Hospital Management Application. This program allow user to create, delete'
+        self.name = Label(self.left, text= text, font='Calibri 15 bold')
+        self.name.place(x=10, y=80)
+
+        text = ', search and update the instance of Patient, Doctor and Nurse.'
+        self.name = Label(self.left, text=text, font='Calibri 15 bold')
+        self.name.place(x=10, y=110)
+
+        text = 'Format: an ID always be 3-char text, start with "P" for Patient, "N" for Nurse'
+        self.name = Label(self.left, text=text, font='Calibri 15 bold')
+        self.name.place(x=10, y=140)
+
+        text = '"D" for doctor. BirthDay is DD/MM/YY (1/Sep/2012)'
+        self.name = Label(self.left, text=text, font='Calibri 15 bold')
+        self.name.place(x=10, y=170)
+
+        text = 'If some value is missing or wrong, it will be filled with None except date and id'
+        self.name = Label(self.left, text=text, font='Calibri 15 bold')
+        self.name.place(x=10, y=210)
 
     def create_menu(self):
         self.create_patient_options()  # Line 112 start with CRUD Patient table
         self.create_doctor_options()  # Line 365 start with CRUD Doctor table
         self.create_nurse_options()
+        self.create_home()
+
+    def create_home(self):
+        self.HomeOptions = self.create_right_option('Home', 10, 600, 55, bg='green')
+        self.HomeOptions.configure(command=self.create_home_frame)
 
     def create_patient_options(self):
         self.PatientOptions = self.create_right_heading('Patient', 10, 0)
@@ -73,7 +99,19 @@ class Application:
         self.addDoctor.configure(command=self.add_doctor)
 
     def create_nurse_options(self):
-        pass
+        self.NurseOptions = self.create_right_heading('Nurse', 10, 400)
+
+        self.searchNurse = self.create_right_option('search', 10, 450)
+        self.searchNurse.configure(command=self.search_nurse)
+        #
+        self.updateNurse= self.create_right_option('update', 150, 450)
+        self.updateNurse.configure(command=self.update_nurse)
+        # #
+        self.deleteNurse = self.create_right_option('delete', 290, 450)
+        self.deleteNurse.configure(command=self.delete_nurse)
+        # # #
+        self.addNurse = self.create_right_option('add', 10, 520)
+        self.addNurse.configure(command=self.add_nurse)
 
     def create_right_heading(self, text, x, y, bg=blue, fg='black'):
         self.name = Label(self.right, text=text, font='Calibri 28 bold', bg=bg, fg=fg)
@@ -551,9 +589,9 @@ class Application:
         cursor = connect.cursor()
         cursor.execute(delete_sql, params)
         connect.commit()
-        msg.showinfo("Delete", "Delete " + self.dd_dID + " From the list of Patient")
+        msg.showinfo("Delete", "Delete " + self.dd_dID + " From the list of Doctor")
         self.ap_annouce = self.create_left_heading(
-            text="Successfully delete " + self.self.dd_dID + " From the list of Patient", x=10, y=280,
+            text="Successfully delete " + self.self.dd_dID + " From the list of Doctor", x=10, y=280,
             font='Calibri 12 bold')
 
 ##########################################################################
@@ -576,6 +614,8 @@ class Application:
     def update_doctor_basedon_id(self):
         if (self.input_checker.is_valid_doctorId(str(self.up_doctor_id_entry.get())) == False):
             msg.showinfo("Warning", "Invalid doctor Id")
+            self.destroy_left_side()
+            self.render_update_doctor_GUI()
             return
         self.render_update_doctor_title_and_entry()
 
@@ -635,7 +675,307 @@ class Application:
         self.up_annouce = self.create_left_heading(
             text="Successfully update " + self.up_dID + " From the list of Doctor", x=10, y=460,
             font='Calibri 12 bold')
+##########################################################################
+    # CRUD on Nurse
+    # def search_nurse(self):
+    def search_nurse(self):
+        self.destroy_left_side()
+        # !!!
+        self.render_search_nurse_GUI()  # Create the instruction at the top of the GUI
 
+    def render_search_nurse_GUI(self):
+        self.sn_heading = self.create_left_heading('Search Nurse', 10, 10, gray)
+        text = "This option allows user to find nurse based on ID"
+        self.sn_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 18 bold')
+
+        # x = 10, y =100 and x = 180, y = 110 Hold x
+        self.sn_nurse_id = self.create_left_heading(text="Nurse ID", x=10, y=100, font='Calibri 18 bold')
+        self.sn_nurse_id_entry = self.create_left_entry(x=180, y=110)
+
+        self.search_button = self.create_left_option('SEARCH', 10, 160)
+        # !!!!
+        self.search_button.configure(
+            command=self.search_nurse_basedon_id)  # Create the result at the bottom of the GUI
+
+    def search_nurse_basedon_id(self):
+        self.create_search_nurse_label_and_entry()
+        self.render_nurse_info_to_entry()
+
+    def create_search_nurse_label_and_entry(self):
+        # Not need info_nurse_id
+        # self.info_nurse_id = self.create_left_heading(text="Nurse ID", x=10, y=230, font='Calibri 18 bold')
+        # self.info_nurse_id_entry = self.create_left_entry(x=180, y=240)
+
+        #Not id only top part
+        if (self.input_checker.is_valid_nurseId(str(self.sn_nurse_id_entry.get())) == False):
+            msg.showinfo("Warning", "Invalid nurse Id")
+            self.destroy_left_side()
+            self.render_search_nurse_GUI()
+            return
+        #End checking condition
+
+        self.info_nurse_name = self.create_left_heading(text="Nurse Name", x=10, y=280, font='Calibri 18 bold')
+        self.info_nurse_name_entry = self.create_left_entry(x=180, y=290)
+
+        self.info_nurse_bDay = self.create_left_heading(text="Nurse Birth Day", x=10, y=330, font='Calibri 18 bold')
+        self.info_nurse_bDay_entry = self.create_left_entry(x=180, y=340)
+
+        self.info_nurse_gender = self.create_left_heading(text="Nurse Gender", x=10, y=380, font='Calibri 18 bold')
+        self.info_nurse_gender_entry = self.create_left_entry(x=180, y=390)
+
+        self.info_nurse_salary = self.create_left_heading(text="Nurse Salary", x=10, y=430, font='Calibri 18 bold')
+        self.info_nurse_salary_entry = self.create_left_entry(x=180, y=440)
+
+        self.info_nurse_bonus = self.create_left_heading(text="Nurse Bonus", x=10, y=480, font='Calibri 18 bold')
+        self.info_nurse_bonus_entry = self.create_left_entry(x=180, y=490)
+
+        self.info_nurse_departmentId = self.create_left_heading(text="Department Id", x=10, y=530,
+                                                                 font='Calibri 18 bold')
+        self.info_nurse_departmentId_entry = self.create_left_entry(x=180, y=540)
+
+        self.info_nurse_trainerId = self.create_left_heading(text="Trained by", x=10, y=580,
+                                                                font='Calibri 18 bold')
+        self.info_nurse_trainerId_entry = self.create_left_entry(x=180, y=590)
+
+
+    def query_and_return_nurse_info(self):
+        # Doing the search query on Patient table
+        cursor = connect.cursor()
+        sql = "SELECT * FROM Nurse WHERE nId like ?"
+        params = (str(self.sn_nurse_id_entry.get()),)
+        result = cursor.execute(sql, params)
+        connect.commit()
+        return result
+
+    def render_nurse_info_to_entry(self):
+        # Render info to the GUI
+        result = self.query_and_return_nurse_info()
+
+        for row in result:
+            self.info_nurse_name_entry.insert(END, str(row[1] + " " + row[2]))
+            self.info_nurse_bDay_entry.insert(END, str(row[3]))
+            self.info_nurse_gender_entry.insert(END, str(row[4]))
+            self.info_nurse_salary_entry.insert(END, str(row[5]))
+            self.info_nurse_bonus_entry.insert(END, str(row[6]))
+            self.info_nurse_departmentId_entry.insert(END, str(row[7]))
+            self.info_nurse_trainerId_entry.insert(END, str(row[8]))
+##########################################################################
+    def add_nurse(self):
+        self.destroy_left_side()
+        self.render_add_nurse_GUI()
+
+    def render_add_nurse_GUI(self):
+        self.create_add_nurse_label_and_entry()
+
+    def create_add_nurse_label_and_entry(self):
+        # instruction
+        self.ad_heading = self.create_left_heading('Add Doctor', 10, 10, gray)
+        text = "This option allows user to add information about Nurse. All the input must be fill with correct information"
+        text2 = "Example: Id only has 3 character (a Uppercase char and 2-digit num). P for patient, d for doctor, n for nurse"
+        self.ad_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 12 bold')
+        self.ad_instruction2 = self.create_left_heading(text=text2, x=10, y=90, font='Calibri 12 bold')
+
+        # start x = 10, y = 150 || y += 25
+        self.add_nurse_id = self.create_left_heading(text="Nurse ID", x=10, y=150, font='Calibri 12 bold')
+        self.add_nurse_id_entry = self.create_left_entry(x=180, y=160)
+
+        self.add_nurse_name = self.create_left_heading(text="Nurse First, Last Name", x=10, y=180,
+                                                        font='Calibri 12 bold')
+        self.add_nurse_fname_entry = self.create_left_entry(x=180, y=185)
+        self.add_nurse_lname_entry = self.create_left_entry(x=450, y=185)
+
+        self.add_nurse_gender = self.create_left_heading(text="Nurse Gender", x=10, y=260, font='Calibri 12 bold')
+        self.add_nurse_gender_entry = self.create_left_entry(x=180, y=265)
+
+        self.add_nurse_bDay = self.create_left_heading(text="Nurse BirthDay", x=10, y=230, font='Calibri 12 bold')
+        self.add_nurse_bDay_entry = self.create_left_entry(x=180, y=235)
+
+        self.add_nurse_salary = self.create_left_heading(text="Nurse Salary", x=10, y=285, font='Calibri 12 bold')
+        self.add_nurse_salary_entry = self.create_left_entry(x=180, y=290)
+
+        self.add_nurse_bonus = self.create_left_heading(text="Nurse Bonus", x=10, y=310, font='Calibri 12 bold')
+        self.add_nurse_bonus_entry = self.create_left_entry(x=180, y=315)
+
+        self.add_nurse_departmentId = self.create_left_heading(text="Department", x=10, y=335, font='Calibri 12 bold')
+        self.add_nurse_departmentId_entry = self.create_left_entry(x=180, y=340)
+
+        self.add_nurse_trainerId = self.create_left_heading(text="Trained by", x=10, y=360, font='Calibri 12 bold')
+        self.add_nurse_trainerId_entry = self.create_left_entry(x=180, y=365)
+        # !!! Functional button
+        self.add_button = self.create_left_option('ADD', 10, 400)
+        self.add_button.configure(command=self.add_nurse_to_Nurse_Table)
+
+    def add_nurse_to_Nurse_Table(self):
+        self.get_added_nurse_info()
+        self.add_info_to_nurse_table()
+
+    def get_added_nurse_info(self):
+        # get all the value at entry
+        self.ad_nId = str(self.add_nurse_id_entry.get())
+        self.ad_fName = str(self.add_nurse_fname_entry.get())
+        self.ad_lName = str(self.add_nurse_lname_entry.get())
+        self.ad_gender = str(self.add_nurse_gender_entry.get())
+        self.ad_bDay = str(self.add_nurse_bDay_entry.get())
+        self.ad_salary = str(self.add_nurse_salary_entry.get())
+        self.ad_bonus = str(self.add_nurse_bonus_entry.get())
+        self.ad_departmentId = str(self.add_nurse_departmentId_entry.get())
+        self.ad_trainerId = str(self.add_nurse_trainerId_entry.get())
+
+        # Check condition
+        if (self.input_checker.is_valid_nurseId(self.ad_nId) == False):
+            self.ad_nId = None
+        if (self.input_checker.is_valid_nurseId(self.ad_trainerId) == False):
+            self.ad_trainerId = None
+        if (self.input_checker.is_valid_departmentID(self.ad_departmentId) == False):
+            self.ad_departmentId = None
+        if (self.input_checker.is_valid_gender(self.ad_gender) == False):
+            self.ad_gender = 'M'
+        if (self.input_checker.is_valid_salary(self.ad_salary) == False):
+            self.ad_salary = 0
+        if (self.input_checker.is_valid_salary(self.ad_bonus) == False):
+            self.ad_bonus = 0
+
+    def add_info_to_nurse_table(self):
+        # If not proper Id ,back out
+        if (self.ad_nId == None or self.ad_departmentId == None):
+            msg.showinfo("Failed", "Invalid nurse Id or department Id")
+            self.destroy_left_side()
+            self.render_add_nurse_GUI()
+            return
+
+        # insert query
+        cursor = connect.cursor()
+        add_nurse_sql = "insert into main.Nurse values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        params = (
+            self.ad_nId, self.ad_fName, self.ad_lName, self.ad_bDay, self.ad_gender, self.ad_salary, self.ad_bonus,
+            self.ad_departmentId, self.ad_trainerId, )
+        cursor.execute(add_nurse_sql, params)
+        connect.commit()
+
+        msg.showinfo("Success", "Successfully add " + self.ad_nId + " to the table")
+        self.ap_annouce = self.create_left_heading(text="Successfully add " + self.ad_nId + " to the table", x=10,
+                                                   y=490, font='Calibri 12 bold')
+
+##########################################################################
+    def delete_nurse(self):
+        self.destroy_left_side()
+        self.render_delete_nurse_GUI()
+
+    def render_delete_nurse_GUI(self):
+        self.dd_heading = self.create_left_heading('Delete Nurse', 10, 10, gray)
+        text = "This option allows user to delete nurse based on ID"
+        self.dn_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 18 bold')
+
+        # x = 10, y =100 and x = 180, y = 110 Giu nguyen x
+        self.dn_nurse_id = self.create_left_heading(text="Nurse ID", x=10, y=100, font='Calibri 18 bold')
+        self.dn_nurse_id_entry = self.create_left_entry(x=180, y=110)
+
+        self.delete_button = self.create_left_option('DELETE', 10, 160)
+        self.delete_button.configure(command=self.delete_nurse_basedon_id)
+
+    def delete_nurse_basedon_id(self):
+        self.dd_nId = str(self.dn_nurse_id_entry.get())
+        if (self.input_checker.is_valid_nurseId(self.dd_nId) == False):
+            msg.showinfo("Warning", "Invalid nurseID")
+            return
+
+        delete_sql = "DELETE FROM Nurse where nId like ?"
+        params = (self.dd_nId,)
+
+        cursor = connect.cursor()
+        cursor.execute(delete_sql, params)
+        connect.commit()
+        msg.showinfo("Delete", "Delete " + self.dd_nId + " From the list of Nurse")
+        self.ap_annouce = self.create_left_heading(
+            text="Successfully delete " + self.dd_nId + " From the list of Nurse", x=10, y=280,
+            font='Calibri 12 bold')
+##########################################################################
+    def update_nurse(self):
+        self.destroy_left_side()
+        self.render_update_nurse_GUI()
+
+    def render_update_nurse_GUI(self):
+        self.up_heading = self.create_left_heading('Update Nurse', 10, 10, gray)
+        text = "This option allows user to update information about nurse based on ID"
+        self.up_instruction = self.create_left_heading(text=text, x=10, y=60, font='Calibri 18 bold')
+
+        # x = 10, y =100 and x = 180, y = 110 Giu nguyen x
+        self.up_nurse_id = self.create_left_heading(text="Nurse ID", x=10, y=100, font='Calibri 18 bold')
+        self.up_nurse_id_entry = self.create_left_entry(x=180, y=110)
+
+        self.update_button = self.create_left_option('SEARCH', 10, 160)
+        self.update_button.configure(command=self.update_nurse_basedon_id)
+
+    def update_nurse_basedon_id(self):
+        if (self.input_checker.is_valid_nurseId(str(self.up_nurse_id_entry.get())) == False):
+            msg.showinfo("Warning", "Invalid nurse Id")
+            self.destroy_left_side()
+            self.render_update_nurse_GUI()
+            return
+        self.render_update_nurse_title_and_entry()
+
+    def render_update_nurse_title_and_entry(self):
+        self.up_nurse_name = self.create_left_heading(text="Doctor First, Last Name", x=10, y=220,
+                                                        font='Calibri 12 bold')
+        self.up_nurse_fname_entry = self.create_left_entry(x=180, y=215)
+        self.up_nurse_lname_entry = self.create_left_entry(x=450, y=215)
+
+        self.up_nurse_gender = self.create_left_heading(text="Doctor Gender", x=10, y=245, font='Calibri 12 bold')
+        self.up_nurse_gender_entry = self.create_left_entry(x=180, y=245)
+
+        self.up_nurse_bDay = self.create_left_heading(text="Doctor Birthday", x=10, y=270, font='Calibri 12 bold')
+        self.up_nurse_bDay_entry = self.create_left_entry(x=180, y=270)
+
+        self.up_nurse_salary = self.create_left_heading(text="Doctor Salary", x=10, y=295, font='Calibri 12 bold')
+        self.up_nurse_salary_entry = self.create_left_entry(x=180, y=295)
+
+        self.up_nurse_bonus = self.create_left_heading(text="Doctor Bonus", x=10, y=320, font='Calibri 12 bold')
+        self.up_nurse_bonus_entry = self.create_left_entry(x=180, y=320)
+
+        self.up_nurse_departmentId = self.create_left_heading(text="Department", x=10, y=345, font='Calibri 12 bold')
+        self.up_nurse_departmentId_entry = self.create_left_entry(x=180, y=345)
+
+        self.up_nurse_trainerId = self.create_left_heading(text="Trained By", x=10, y=370, font='Calibri 12 bold')
+        self.up_nurse_trainerId_entry = self.create_left_entry(x=180, y=370)
+
+        self.update_button = self.create_left_option('UPDATE', 10, 430)
+        self.update_button.configure(command=self.update_nurse_to_Nurse_Table)
+
+    def update_nurse_to_Nurse_Table(self):
+        # get values
+        self.up_nID = str(self.up_nurse_id_entry.get())
+        self.up_fName = str(self.up_nurse_fname_entry.get())
+        self.up_lName = str(self.up_nurse_lname_entry.get())
+        self.up_gender = str(self.up_nurse_gender_entry.get())
+        self.up_bDay = str(self.up_nurse_bDay_entry.get())
+        self.up_salary = str(self.up_nurse_salary_entry.get())
+        self.up_bonus = str(self.up_nurse_bonus_entry.get())
+        self.up_departmentId = str(self.up_nurse_departmentId_entry.get())
+        self.up_trainerId = str(self.up_nurse_trainerId_entry.get())
+
+        if (self.input_checker.is_valid_departmentID(self.up_departmentId) == False):
+            msg.showinfo("Warning", "Invalid department Id")
+            return
+        if (self.input_checker.is_valid_nurseId(self.up_trainerId) == False):
+            self.up_trainerId = None
+
+        if(self.input_checker.is_valid_gender(self.up_gender) == False):
+            self.ad_gender = 'M'
+        if (self.input_checker.is_valid_salary(self.up_salary) == False):
+            self.ad_salary = 0
+        if (self.input_checker.is_valid_salary(self.up_bonus) == False):
+            self.ad_bonus = 0
+
+        query = "UPDATE Nurse SET firstName=?, lastName=?, birthDay=?, gender=?, salary=?, bonus=?, departmentId=?, nid_trainedby=? where nId = ?"
+        params = (self.up_fName, self.up_lName, self.up_bDay, self.up_gender, self.up_salary, self.up_bonus,
+                  self.up_departmentId, self.up_trainerId, self.up_nID)
+        cursor = connect.cursor()
+        cursor.execute(query, params)
+        connect.commit()
+        msg.showinfo("Success", "Update " + self.up_nID + ".")
+        self.up_annouce = self.create_left_heading(
+            text="Successfully update " + self.up_nID + " From the list of Nurse", x=10, y=500,
+            font='Calibri 12 bold')
 
 class Checker:
     def __init__(self):
