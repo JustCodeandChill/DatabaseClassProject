@@ -1,0 +1,145 @@
+CREATE TABLE Department
+(
+  department.Id INT NOT NULL,
+  departmentName INT NOT NULL,
+  PRIMARY KEY (department.Id)
+);
+
+CREATE TABLE Medicine
+(
+  m.Id INT NOT NULL,
+  name INT NOT NULL,
+  quantity INT NOT NULL,
+  price INT NOT NULL,
+  PRIMARY KEY (m.Id)
+);
+
+CREATE TABLE Doctor
+(
+  d.Id INT NOT NULL,
+  firstName INT NOT NULL,
+  lastName INT NOT NULL,
+  birthDay INT NOT NULL,
+  gender INT NOT NULL,
+  department.id INT NOT NULL,
+  salary INT NOT NULL,
+  bonus INT,
+  department.Id INT NOT NULL,
+  PRIMARY KEY (d.Id),
+  FOREIGN KEY (department.Id) REFERENCES Department(department.Id)
+);
+
+CREATE TABLE Nurse
+(
+  n.Id INT NOT NULL,
+  firstName INT NOT NULL,
+  lastName INT NOT NULL,
+  birthDAy INT NOT NULL,
+  gender INT NOT NULL,
+  salary INT NOT NULL,
+  bonus INT,
+  department.Id INT NOT NULL,
+  department.Id INT NOT NULL,
+  PRIMARY KEY (n.Id),
+  FOREIGN KEY (department.Id) REFERENCES Department(department.Id),
+  UNIQUE (department.Id)
+);
+
+CREATE TABLE Room
+(
+  r.Id INT NOT NULL,
+  n.Id INT NOT NULL,
+  PRIMARY KEY (r.Id),
+  FOREIGN KEY (n.Id) REFERENCES Nurse(n.Id)
+);
+
+CREATE TABLE mentors
+(
+  n.Id INT NOT NULL,
+  d.Id INT NOT NULL,
+  PRIMARY KEY (n.Id, d.Id),
+  FOREIGN KEY (n.Id) REFERENCES Nurse(n.Id),
+  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id)
+);
+
+CREATE TABLE train
+(
+  trainerId INT NOT NULL,
+  traineeId INT NOT NULL,
+  PRIMARY KEY (trainerId, traineeId),
+  FOREIGN KEY (trainerId) REFERENCES Nurse(n.Id),
+  FOREIGN KEY (traineeId) REFERENCES Nurse(n.Id)
+);
+
+CREATE TABLE Doctor_specialize
+(
+  specialize INT NOT NULL,
+  d.Id INT NOT NULL,
+  PRIMARY KEY (specialize, d.Id),
+  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id)
+);
+
+CREATE TABLE Patient
+(
+  p.Id INT NOT NULL,
+  firstName INT NOT NULL,
+  lastName INT NOT NULL,
+  gender INT NOT NULL,
+  birthDay INT NOT NULL,
+  SSN INT NOT NULL,
+  d.Id INT NOT NULL,
+  n.Id INT NOT NULL,
+  r.Id INT NOT NULL,
+  PRIMARY KEY (p.Id),
+  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id),
+  FOREIGN KEY (n.Id) REFERENCES Nurse(n.Id),
+  FOREIGN KEY (r.Id) REFERENCES Room(r.Id),
+  UNIQUE (SSN)
+);
+
+CREATE TABLE Record
+(
+  record.Id INT NOT NULL,
+  description INT NOT NULL,
+  p.Id INT NOT NULL,
+  d.Id INT NOT NULL,
+  PRIMARY KEY (record.Id, p.Id),
+  FOREIGN KEY (p.Id) REFERENCES Patient(p.Id),
+  FOREIGN KEY (d.Id) REFERENCES Doctor(d.Id)
+);
+
+CREATE TABLE Bill
+(
+  b.Id INT NOT NULL,
+  initialAmount INT NOT NULL,
+  insuaranceDeduct INT NOT NULL,
+  p.Id INT NOT NULL,
+  PRIMARY KEY (b.Id, p.Id),
+  FOREIGN KEY (p.Id) REFERENCES Patient(p.Id)
+);
+
+CREATE TABLE listed_in
+(
+  b.Id INT NOT NULL,
+  p.Id INT NOT NULL,
+  m.Id INT NOT NULL,
+  PRIMARY KEY (b.Id, p.Id, m.Id),
+  FOREIGN KEY (b.Id, p.Id) REFERENCES Bill(b.Id, p.Id),
+  FOREIGN KEY (m.Id) REFERENCES Medicine(m.Id)
+);
+
+CREATE TABLE Patient_address
+(
+  address INT NOT NULL,
+  p.Id INT NOT NULL,
+  PRIMARY KEY (address, p.Id),
+  FOREIGN KEY (p.Id) REFERENCES Patient(p.Id)
+);
+
+CREATE TABLE Patient_phoneNumber
+(
+  phoneNumber INT NOT NULL,
+  p.Id INT NOT NULL,
+  PRIMARY KEY (phoneNumber, p.Id),
+  FOREIGN KEY (p.Id) REFERENCES Patient(p.Id)
+);
